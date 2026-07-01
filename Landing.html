@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeCraft · Learn Web Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --cream:  #fdf8f0;
+  --warm:   #f5ede0;
+  --ink:    #1a1208;
+  --brown:  #3d2b1a;
+  --amber:  #c97b2e;
+  --gold:   #e8a84c;
+  --rust:   #b44a2a;
+  --sage:   #5a7a5e;
+  --muted:  #7a6a58;
+  --border: rgba(61,43,26,0.12);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+
+/* ══════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--warm); }
+::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 3px; }
+
+/* ══════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 6%;
+  background: rgba(253,248,240,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+  color: var(--brown);
+  letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--amber); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  text-decoration: none; font-size: 14px; font-weight: 500;
+  color: var(--muted); transition: color .2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute;
+  bottom: -3px; left: 0; width: 0; height: 1.5px;
+  background: var(--amber); transition: width .3s;
+}
+.nav-links a:hover { color: var(--brown); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  background: var(--brown); color: var(--cream);
+  padding: 10px 22px; border-radius: 6px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: background .2s, transform .2s;
+}
+.nav-cta:hover { background: var(--amber); transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  min-height: 92vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 80px 6% 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0; width: 50%;
+  background: var(--warm);
+  z-index: 0;
+}
+/* Diagonal divider */
+.hero-divider {
+  position: absolute;
+  left: calc(50% - 60px); top: 0; bottom: 0; width: 120px;
+  background: linear-gradient(to right, var(--cream), var(--warm));
+  z-index: 1;
+  clip-path: polygon(40px 0, 100% 0, calc(100% - 40px) 100%, 0 100%);
+}
+.hero-left { position: relative; z-index: 2; padding-right: 40px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--amber);
+  margin-bottom: 20px;
+  animation: fadeUp .6s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; width: 28px; height: 1.5px; background: var(--amber);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 900; line-height: 1.06;
+  color: var(--brown);
+  margin-bottom: 24px;
+  animation: fadeUp .6s .1s ease both;
+}
+.hero h1 em { color: var(--amber); font-style: normal; }
+.hero p {
+  font-size: 16px; line-height: 1.85; color: var(--muted);
+  max-width: 440px; margin-bottom: 36px;
+  font-weight: 400;
+  animation: fadeUp .6s .2s ease both;
+}
+.hero-btns {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: fadeUp .6s .3s ease both;
+}
+.btn-solid {
+  background: var(--brown); color: var(--cream);
+  padding: 14px 30px; border-radius: 8px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all .25s;
+  box-shadow: 0 4px 20px rgba(61,43,26,0.25);
+}
+.btn-solid:hover { background: var(--amber); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(201,123,46,0.35); }
+.btn-ghost {
+  border: 1.5px solid var(--border);
+  color: var(--brown); padding: 14px 30px;
+  border-radius: 8px; font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all .25s;
+}
+.btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-3px); }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 44px;
+  animation: fadeUp .6s .4s ease both;
+}
+.stat { }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px; font-weight: 700; color: var(--brown);
+}
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Hero right — illustration area */
+.hero-right {
+  position: relative; z-index: 2;
+  padding-left: 40px;
+  display: flex; flex-direction: column; gap: 16px;
+  animation: fadeUp .6s .25s ease both;
+}
+.hero-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 16px rgba(61,43,26,0.07);
+  transition: transform .3s, box-shadow .3s;
+}
+.hero-card:hover { transform: translateX(6px); box-shadow: 0 6px 28px rgba(61,43,26,0.12); }
+.hc-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+.hc-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--brown); margin-bottom: 6px; }
+.hc-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.hc-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+.hc-tag {
+  font-size: 11px; padding: 3px 10px; border-radius: 20px;
+  background: var(--warm); color: var(--brown); font-weight: 500;
+  border: 1px solid var(--border);
+}
+.hero-img-wrap {
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(61,43,26,0.1);
+  height: 200px;
+}
+.hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ══════════════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════════════ */
+.marquee-strip {
+  background: var(--brown);
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+.marquee-inner span {
+  font-size: 13px; font-weight: 500;
+  color: rgba(253,248,240,0.7);
+  padding: 0 36px;
+  letter-spacing: 1px;
+}
+.marquee-inner span strong { color: var(--gold); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ══════════════════════════════════════
+   FEATURES
+══════════════════════════════════════ */
+#features { padding: 96px 6%; }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--amber);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+}
+.section-label::before { content: ''; width: 24px; height: 1.5px; background: var(--amber); }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700; color: var(--brown);
+  max-width: 560px; line-height: 1.2;
+  margin-bottom: 56px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feat-card {
+  background: var(--warm);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+  position: relative; overflow: hidden;
+}
+.feat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--amber), var(--gold));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .4s;
+}
+.feat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(61,43,26,0.12); border-color: rgba(201,123,46,0.25); }
+.feat-card:hover::before { transform: scaleX(1); }
+.feat-icon {
+  width: 52px; height: 52px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin-bottom: 20px;
+}
+.feat-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-weight: 700; color: var(--brown);
+  margin-bottom: 10px;
+}
+.feat-card p { font-size: 14px; line-height: 1.8; color: var(--muted); }
+
+/* ══════════════════════════════════════
+   HOW IT WORKS
+══════════════════════════════════════ */
+#how { padding: 96px 6%; background: var(--warm); }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  margin-top: 56px; position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute; top: 32px; left: 12.5%; right: 12.5%;
+  height: 1px; background: repeating-linear-gradient(to right, var(--amber) 0, var(--amber) 6px, transparent 6px, transparent 14px);
+}
+.step {
+  text-align: center; padding: 0 16px;
+  position: relative;
+}
+.step-num {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700; color: var(--amber);
+  margin: 0 auto 20px;
+  position: relative; z-index: 1;
+  transition: background .3s, color .3s;
+}
+.step:hover .step-num { background: var(--amber); color: #fff; }
+.step h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+.step p { font-size: 13px; line-height: 1.75; color: var(--muted); }
+
+/* ══════════════════════════════════════
+   PROJECTS SHOWCASE
+══════════════════════════════════════ */
+#projects { padding: 96px 6%; }
+.projects-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px;
+  margin-top: 56px;
+}
+.proj {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: transform .3s, box-shadow .3s;
+}
+.proj:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(61,43,26,0.15); }
+.proj-img { height: 240px; overflow: hidden; }
+.proj.large .proj-img { height: 340px; }
+.proj-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.proj:hover .proj-img img { transform: scale(1.06); }
+.proj-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,18,8,0.88) 0%, transparent 55%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px;
+}
+.proj-tag { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.proj-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--cream); }
+.proj-stack { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.proj-stack span { font-size: 11px; padding: 2px 9px; border-radius: 20px; background: rgba(253,248,240,0.12); color: rgba(253,248,240,0.8); border: 1px solid rgba(253,248,240,0.15); }
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+#testimonials { padding: 96px 6%; background: var(--warm); }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+.testi-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px;
+  transition: transform .3s, box-shadow .3s;
+}
+.testi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(61,43,26,0.1); }
+.testi-stars { font-size: 16px; margin-bottom: 16px; letter-spacing: 2px; }
+.testi-quote {
+  font-size: 14px; line-height: 1.85; color: var(--muted);
+  font-style: italic; margin-bottom: 24px;
+}
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--border);
+}
+.testi-name { font-size: 14px; font-weight: 600; color: var(--brown); }
+.testi-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ══════════════════════════════════════
+   CTA BANNER
+══════════════════════════════════════ */
+#cta { padding: 96px 6%; }
+.cta-box {
+  background: var(--brown);
+  border-radius: 24px;
+  padding: 72px 64px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: center; gap: 40px;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: -80px; right: 140px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(232,168,76,0.15), transparent 70%);
+  border-radius: 50%;
+}
+.cta-box::after {
+  content: '';
+  position: absolute; bottom: -60px; left: 60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(180,74,42,0.2), transparent 70%);
+  border-radius: 50%;
+}
+.cta-text { position: relative; z-index: 1; }
+.cta-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 900; color: var(--cream);
+  line-height: 1.1; margin-bottom: 16px;
+}
+.cta-text h2 em { color: var(--gold); font-style: normal; }
+.cta-text p { font-size: 15px; color: rgba(253,248,240,0.65); line-height: 1.8; max-width: 460px; }
+.cta-action { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.cta-btn {
+  white-space: nowrap;
+  background: var(--gold); color: var(--brown);
+  padding: 16px 36px; border-radius: 10px;
+  font-size: 15px; font-weight: 700;
+  text-decoration: none; transition: all .25s;
+  box-shadow: 0 6px 24px rgba(232,168,76,0.4);
+}
+.cta-btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 32px rgba(232,168,76,0.5); }
+.cta-note { font-size: 12px; color: rgba(253,248,240,0.45); }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: var(--ink); color: rgba(253,248,240,0.55);
+  padding: 64px 6% 36px;
+}
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 52px; }
+.footer-brand .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900; color: var(--cream);
+  margin-bottom: 14px;
+}
+.footer-brand .logo span { color: var(--gold); }
+.footer-brand p { font-size: 13px; line-height: 1.8; max-width: 220px; }
+.footer-col h4 { font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 16px; letter-spacing: 0.5px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a { font-size: 13px; color: rgba(253,248,240,0.5); text-decoration: none; transition: color .2s; }
+.footer-col ul a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px;
+}
+.footer-socials { display: flex; gap: 16px; }
+.footer-socials a {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(253,248,240,0.5); font-size: 15px;
+  text-decoration: none; transition: all .2s;
+}
+.footer-socials a:hover { background: var(--amber); color: #fff; border-color: transparent; }
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .features-grid, .testi-grid { grid-template-columns: repeat(2, 1fr); }
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+  .proj.large { grid-column: span 2; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
+  .steps-grid::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 60px 6% 40px; }
+  .hero::after { display: none; }
+  .hero-divider { display: none; }
+  .hero-left { padding-right: 0; }
+  .hero-right { padding-left: 0; }
+  .nav-links { display: none; }
+  .features-grid, .testi-grid, .projects-grid, .steps-grid { grid-template-columns: 1fr; }
+  .proj.large { grid-column: auto; }
+  .cta-box { grid-template-columns: 1fr; padding: 48px 32px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav>
+  <div class="nav-logo">Code<span>Craft</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Start Learning →</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="hero-divider"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Level 1 · Task 2</div>
+    <h1>Build Beautiful<br>Websites from<br><em>Scratch</em></h1>
+    <p>Master HTML & CSS through hands-on projects. Learn columns, sections, headers, footers, padding, color palettes and more — all while unleashing your creativity.</p>
+    <div class="hero-btns">
+      <a href="#features" class="btn-solid">Explore Features</a>
+      <a href="#projects" class="btn-ghost">View Projects</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">12K+</div><div class="stat-lbl">Students</div></div>
+      <div class="stat"><div class="stat-num">40+</div><div class="stat-lbl">Projects</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-lbl">Satisfaction</div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=400&fit=crop" alt="Web development workspace">
+    </div>
+    <div class="hero-card">
+      <div class="hc-label">Project 1</div>
+      <div class="hc-title">Landing Page</div>
+      <div class="hc-desc">Design an impressive landing page focusing on layout, color palette, alignment and spacing.</div>
+      <div class="hc-tags">
+        <span class="hc-tag">HTML</span>
+        <span class="hc-tag">CSS</span>
+        <span class="hc-tag">Responsive</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>HTML <strong>&</strong> CSS Fundamentals</span>
+    <span>🎨 Color Palettes</span>
+    <span>📐 Box Model</span>
+    <span>✦ Flexbox Layout</span>
+    <span>🧱 CSS Grid</span>
+    <span>📱 Responsive Design</span>
+    <span>✨ Animations</span>
+    <span>HTML <strong>&</strong> CSS Fundamentals</span>
+    <span>🎨 Color Palettes</span>
+    <span>📐 Box Model</span>
+    <span>✦ Flexbox Layout</span>
+    <span>🧱 CSS Grid</span>
+    <span>📱 Responsive Design</span>
+    <span>✨ Animations</span>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section id="features">
+  <div class="section-label">Core Skills</div>
+  <div class="section-title">Everything You'll Learn to Master</div>
+  <div class="features-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon">🏗️</div>
+      <h3>Sections & Columns</h3>
+      <p>Learn to divide your page into logical, well-structured sections and create multi-column layouts that look great on any screen.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🎨</div>
+      <h3>Color Palette Mastery</h3>
+      <p>Discover how to choose cohesive color schemes that convey emotion, guide user attention, and make designs visually stunning.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📐</div>
+      <h3>Alignment & Padding</h3>
+      <p>Master the art of spacing — padding, margin, and alignment — to create breathing room and visual hierarchy in every layout.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🧱</div>
+      <h3>Boxes & the Box Model</h3>
+      <p>Understand how CSS treats every element as a box. Learn borders, padding, margin, and how to avoid overlapping elements.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🔤</div>
+      <h3>Headers & Footers</h3>
+      <p>Build professional navigation bars and footers that anchor your design, improve usability, and establish brand identity.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">💡</div>
+      <h3>Creative Design Thinking</h3>
+      <p>Unleash your creativity — learn to make design decisions that are not just functional but genuinely impressive and memorable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how">
+  <div class="section-label">Process</div>
+  <div class="section-title">How the Learning Journey Works</div>
+  <div class="steps-grid">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h3>Learn the Basics</h3>
+      <p>Start with HTML structure and fundamental CSS properties. Understand tags, selectors, and the cascade.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <h3>Plan Your Layout</h3>
+      <p>Sketch sections, choose your color palette, and plan the visual hierarchy before writing a single line of code.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <h3>Build & Style</h3>
+      <p>Implement your design using HTML and CSS. Apply Flexbox, Grid, padding, and colors mindfully.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <h3>Polish & Submit</h3>
+      <p>Review alignments, fix overlapping elements, make it responsive, and submit a polished, professional result.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="section-label">Showcase</div>
+  <div class="section-title">Example Projects You'll Create</div>
+  <div class="projects-grid">
+    <div class="proj large reveal">
+      <div class="proj-img">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=680&fit=crop" alt="Landing Page Project">
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-tag">Task 2 · Main Project</div>
+        <div class="proj-name">Professional Landing Page</div>
+        <div class="proj-stack"><span>HTML</span><span>CSS</span><span>Flexbox</span><span>Grid</span></div>
+      </div>
+    </div>
+    <div class="proj reveal">
+      <div class="proj-img">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=480&fit=crop" alt="Personal Portfolio">
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-tag">Bonus</div>
+        <div class="proj-name">Personal Portfolio</div>
+        <div class="proj-stack"><span>HTML</span><span>CSS</span></div>
+      </div>
+    </div>
+    <div class="proj reveal">
+      <div class="proj-img">
+        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=500&h=480&fit=crop" alt="Product Page">
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-tag">Extension</div>
+        <div class="proj-name">Product Showcase Page</div>
+        <div class="proj-stack"><span>HTML</span><span>CSS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials">
+  <div class="section-label">Reviews</div>
+  <div class="section-title">What Students Say</div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"The landing page task was the perfect starting point. I finally understood how padding and alignment work together to create a professional look."</div>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=88&h=88&fit=crop&crop=face" alt="Arjun S." class="testi-avatar">
+        <div>
+          <div class="testi-name">Arjun S.</div>
+          <div class="testi-role">CS Student</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Building the landing page taught me more about CSS in one day than weeks of theory. The box model finally clicked for me!"</div>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=88&h=88&fit=crop&crop=face" alt="Priya R." class="testi-avatar">
+        <div>
+          <div class="testi-name">Priya R.</div>
+          <div class="testi-role">Web Dev Beginner</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"I loved how the project encouraged creativity while teaching the fundamentals. My landing page looked genuinely impressive by the end."</div>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=88&h=88&fit=crop&crop=face" alt="Kevin M." class="testi-avatar">
+        <div>
+          <div class="testi-name">Kevin M.</div>
+          <div class="testi-role">Freelance Developer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="cta">
+  <div class="cta-box">
+    <div class="cta-text">
+      <h2>Ready to Build Your<br><em>Landing Page?</em></h2>
+      <p>Apply HTML &amp; CSS skills, express your creativity, and deliver a visually appealing, user-friendly design that stands out.</p>
+    </div>
+    <div class="cta-action">
+      <a href="#home" class="cta-btn">Start Building Now →</a>
+      <span class="cta-note">No prior experience needed</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Code<span>Craft</span></div>
+      <p>Empowering beginners to build professional web experiences with HTML &amp; CSS.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="#">HTML Basics</a></li>
+        <li><a href="#">CSS Fundamentals</a></li>
+        <li><a href="#">Flexbox Guide</a></li>
+        <li><a href="#">CSS Grid</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Projects</h4>
+      <ul>
+        <li><a href="#">Landing Page</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Product Page</a></li>
+        <li><a href="#">Blog Layout</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Color Tools</a></li>
+        <li><a href="#">Font Pairs</a></li>
+        <li><a href="#">CSS Reference</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 CodeCraft · All Rights Reserved · Level 1 Task 2 Demo</span>
+    <div class="footer-socials">
+      <a href="#" title="GitHub">⌥</a>
+      <a href="#" title="Twitter">✦</a>
+      <a href="#" title="LinkedIn">in</a>
+      <a href="#" title="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

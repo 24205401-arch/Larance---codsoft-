@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Larance Francis B Portfolio</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#58255e;
+    color:white;
+}
+
+header{
+    background:#342449;
+    padding:20px 10%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:#ab38f8;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+.hero{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:80px 10%;
+    flex-wrap:wrap;
+    gap:30px;
+}
+
+.hero-text{
+    max-width:600px;
+}
+
+.hero-text h1{
+    font-size:50px;
+    margin-bottom:15px;
+}
+
+.hero-text span{
+    color:#38bdf8;
+}
+
+.hero-text p{
+    font-size:18px;
+    line-height:1.6;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    background:#38bdf8;
+    color:white;
+    padding:12px 25px;
+    text-decoration:none;
+    border-radius:5px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    opacity:0.8;
+}
+
+.hero img{
+    width:320px;
+    height:320px;
+    object-fit:cover;
+    border-radius:50%;
+    border:5px solid #38bdf8;
+    box-shadow:0 0 20px rgba(56,189,248,0.5);
+}
+
+section{
+    padding:70px 10%;
+}
+
+.section-title{
+    text-align:center;
+    font-size:35px;
+    margin-bottom:40px;
+    color:#38bdf8;
+}
+
+.about p{
+    text-align:center;
+    line-height:1.8;
+    font-size:18px;
+}
+
+.skills{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.skill{
+    background:#1e293b;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.skill:hover{
+    transform:translateY(-5px);
+    background:#334155;
+}
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.project{
+    background:#1e293b;
+    padding:20px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.project:hover{
+    transform:translateY(-5px);
+    background:#334155;
+}
+
+.project h3{
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+.contact{
+    text-align:center;
+}
+
+.contact p{
+    margin:15px 0;
+    font-size:18px;
+}
+
+.contact a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.contact a:hover{
+    text-decoration:underline;
+}
+
+footer{
+    background:#1e293b;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+
+@media(max-width:768px){
+
+    .hero{
+        flex-direction:column-reverse;
+        text-align:center;
+    }
+
+    .hero-text h1{
+        font-size:38px;
+    }
+
+    nav{
+        margin-top:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">Larance Francis B</div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+</header>
+
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <h1>Hello, I'm <span>Larance Francis B</span></h1>
+
+        <p>
+            Full Stack Developer passionate about creating
+            responsive and modern web applications using
+            HTML, CSS, JavaScript, React, MongoDB, SQL and Java.
+        </p>
+
+        <a href="Larance_Francis_B_CV.html" class="btn" target="_blank">
+            View CV
+        </a>
+
+        <a href="Larance_Francis_B_CV.html"
+           download
+           class="btn"
+           style="background:#16a34a;">
+            Download CV
+        </a>
+
+        <a href="https://www.linkedin.com/in/larance-francis-b-9183a62a4?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+           target="_blank"
+           class="btn"
+           style="background:#0077b5;">
+            LinkedIn
+        </a>
+
+    </div>
+
+    <!-- Place your image in the same folder and change the file name if needed -->
+    <img src="c:\Users\angel\Downloads\Lafra.jpg" alt="Larance Francis B">
+
+</section>
+
+<section class="about" id="about">
+
+    <h2 class="section-title">About Me</h2>
+
+    <p>
+        I am a Full Stack Developer with strong knowledge of
+        frontend and backend technologies. I enjoy building
+        responsive websites and solving real-world problems
+        through software development. I am passionate about
+        creating clean, user-friendly and efficient web
+        applications.
+    </p>
+
+</section>
+
+<section id="skills">
+
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skills">
+
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">React JS</div>
+        <div class="skill">Node JS</div>
+        <div class="skill">MongoDB</div>
+        <div class="skill">SQL</div>
+        <div class="skill">Java</div>
+
+    </div>
+
+</section>
+
+<section id="projects">
+
+    <h2 class="section-title">Projects</h2>
+
+    <div class="projects">
+
+        <div class="project">
+            <h3>Portfolio Website</h3>
+            <p>
+                Personal portfolio website developed using
+                HTML, CSS and JavaScript with responsive design.
+            </p>
+        </div>
+
+        <div class="project">
+            <h3>Theme Park Management System</h3>
+            <p>
+                Java-based management system for handling
+                bookings, customers and park operations.
+            </p>
+        </div>
+
+        <div class="project">
+            <h3>Smart Campus Issues Management System</h3>
+            <p>
+                Database-driven application using SQL for
+                reporting and managing campus issues efficiently.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="contact" id="contact">
+
+    <h2 class="section-title">Contact Me</h2>
+
+    <p>Email: larancebjothi@gmail.com</p>
+
+    <p> +PH NO91 8754858216</p>
+
+    <p>Kovilpatti, Tamil Nadu, India</p>
+
+    <p>
+         LinkedIn:
+        <a href="https://www.linkedin.com/in/larance-francis-b-9183a62a4?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+           target="_blank">
+            linkedin.com/in/larance-francis-b-9183a62a4
+        </a>
+    </p>
+
+</section>
+
+<footer>
+    <p>&copy; 2026 Larance Francis B Portfolio. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
